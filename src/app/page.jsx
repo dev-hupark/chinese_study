@@ -113,9 +113,9 @@ const Home = () => {
       <div className="container">
         <h1>Chinese Study</h1>
         <div className="nav">
-          <div className="button-group">
+          {/*<div className="button-group">
             <button onClick={handleOpenModal}>등록</button>
-          </div>
+          </div>*/}
           <div className="search-filter">
             <label>회차별 검색</label>
             <select onChange={(e) => setSelectedSessions(e.target.value)} value={selectedSession}>
