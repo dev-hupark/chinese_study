@@ -70,11 +70,12 @@ const Home = () => {
                 <td>{item.pinyin}</td>
                 <td>{item.mean}</td>
                 <td>
-                  {item.tts_url ? (
-                    <audio controls>
-                    <source src={item.tts_url} type="audio/mpeg" />
-                  </audio>
-                  ) : (<p>-</p>)}
+                  <p>-</p>
+                  {/*{item.tts_url ? (*/}
+                  {/*  <audio controls>*/}
+                  {/*  <source src={item.tts_url} type="audio/mpeg" />*/}
+                  {/*</audio>*/}
+                  {/*) : (<p>-</p>)}*/}
                 </td>
                 <td>{new Date(item.study_dt).toLocaleDateString('ko-KR')}</td>
               </tr>
