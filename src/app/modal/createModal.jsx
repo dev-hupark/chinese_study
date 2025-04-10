@@ -85,7 +85,6 @@ const Modal = ({ isOpen, closeModal, onSubmit }) => {
               type="date"
               value={studyDt}
               onChange={(e) => setStudyDt(e.target.value)}
-              required
             />
           </div>
           <div>
@@ -94,7 +93,6 @@ const Modal = ({ isOpen, closeModal, onSubmit }) => {
               type="text"
               value={ttsUrl}
               onChange={(e) => setTtsUrl(e.target.value)}
-              required
             />
           </div>
           <div className="button-group">
