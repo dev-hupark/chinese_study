@@ -22,8 +22,8 @@ const Modal = ({ isOpen, closeModal, onSubmit }) => {
         chinese_char: chineseChar,
         pinyin: pinyin,
         mean: mean,
-        study_dt: studyDt,
-        tts_url: ttsUrl,
+        // study_dt: studyDt,
+        // tts_url: ttsUrl,
       },
     ]);
 
