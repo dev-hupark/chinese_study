@@ -57,12 +57,37 @@ const Home = () => {
   if (error) return <div>오류: {error}</div>;
 
   const speakChinese = (text) => {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "zh-CN";
-    utterance.rate = 0.8;   // 속도 느리게 (기본: 1)
-    utterance.pitch = 1.2;  // 약간 높은 톤
-    utterance.volume = 1;   // 최대 볼륨
-    speechSynthesis.speak(utterance);
+    const synth = window.speechSynthesis;
+
+    const speak = () => {
+      const voices = synth.getVoices();
+      const zhVoice = voices.find(v => v.lang === "zh-CN" || v.name.includes("Chinese"));
+
+      if (!zhVoice) {
+        alert("중국어 TTS 음성을 찾을 수 없습니다!");
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.voice = zhVoice;
+      utterance.lang = "zh-CN";
+      utterance.rate = 0.8;   // 속도 느리게 (기본: 1)
+      utterance.pitch = 1.2;  // 약간 높은 톤
+      utterance.volume = 1;   // 최대 볼륨
+      synth.speak(utterance);
+    };
+
+    if (synth.getVoices().length === 0) {
+      synth.addEventListener("voiceschanged", speak);
+    } else {
+      speak();
+    }
+    // const utterance = new SpeechSynthesisUtterance(text);
+    // utterance.lang = "zh-CN";
+    // utterance.rate = 0.8;   // 속도 느리게 (기본: 1)
+    // utterance.pitch = 1.2;  // 약간 높은 톤
+    // utterance.volume = 1;   // 최대 볼륨
+    // speechSynthesis.speak(utterance);
   };
 
   // 삭제
@@ -107,7 +132,7 @@ const Home = () => {
           {filtered.map(item => (
             <div className="hanzi-card" key={item.id}>
               <div className="card-header">
-                <p className="session">{item.study_session}회차</p>
+                <p className="session">학습 {item.study_session}회차</p>
                 <div className="button-group">
                   <button onClick={() => speakChinese(item.chinese_char)}>발음듣기</button>
                   {/*<button className="delete" onClick={() => handleDelete(item.id)}>삭제</button>*/}
