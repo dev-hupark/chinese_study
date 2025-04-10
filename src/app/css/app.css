@@ -220,4 +220,10 @@ button:focus {
 .container .nav .search-filter{
     display: flex;
     gap:10px;
+    align-items: center;
+}
+
+.container .nav .search-filter div{
+    display: flex;
+    gap: 5px;
 }

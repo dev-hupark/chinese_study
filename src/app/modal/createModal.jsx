@@ -6,12 +6,12 @@ import { client } from '/lib/supabaseClient';
 import '/src/app/css/app.css';
 
 const Modal = ({ isOpen, closeModal, onSubmit }) => {
-  const [studySession, setStudySession] = useState('');
+  const [studySession, setStudySession] = useState('6');
   const [chineseChar, setChineseChar] = useState('');
   const [pinyin, setPinyin] = useState('');
   const [mean, setMean] = useState('');
-  const [studyDt, setStudyDt] = useState('');
-  const [ttsUrl, setTtsUrl] = useState('');
+  const [selectedWordType, setSelectedWordType] = useState('P');
+  const wordType = [{key: '패턴', value: 'P'}, {key: '회화', value: 'C'}]
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,8 +22,7 @@ const Modal = ({ isOpen, closeModal, onSubmit }) => {
         chinese_char: chineseChar,
         pinyin: pinyin,
         mean: mean,
-        // study_dt: studyDt,
-        // tts_url: ttsUrl,
+        word_type: selectedWordType,
       },
     ]);
 
@@ -79,22 +78,14 @@ const Modal = ({ isOpen, closeModal, onSubmit }) => {
               required
             />
           </div>
-          {/*<div>*/}
-          {/*  <label>학습일</label>*/}
-          {/*  <input*/}
-          {/*    type="date"*/}
-          {/*    value={studyDt}*/}
-          {/*    onChange={(e) => setStudyDt(e.target.value)}*/}
-          {/*  />*/}
-          {/*</div>*/}
-          {/*<div>*/}
-          {/*  <label>TTS URL</label>*/}
-          {/*  <input*/}
-          {/*    type="text"*/}
-          {/*    value={ttsUrl}*/}
-          {/*    onChange={(e) => setTtsUrl(e.target.value)}*/}
-          {/*  />*/}
-          {/*</div>*/}
+          <div className="search-filter">
+            <label>구분</label>
+            <select onChange={(e) => setSelectedWordType(e.target.value)} value={selectedWordType}>
+              {wordType.map((item) => (
+                  <option key={item.value} value={item.value}>{item.key}</option>
+              ))}
+            </select>
+          </div>
           <div className="button-group">
             <button type="submit" className="confirm">
               등록

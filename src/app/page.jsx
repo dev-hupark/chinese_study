@@ -11,11 +11,19 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sessions, setSessions] = useState([]);
+  const [wordType, setWordType] = useState([]);
   const [selectedSession, setSelectedSessions] = useState('all');
+  const [selectedWordType, setSelectedWordType] = useState('all');
 
-  const filtered = selectedSession === "all"
+  /*const filtered = selectedSession === "all"
     ? studyData
-    : studyData.filter((item) => item.study_session === parseInt(selectedSession));
+    : studyData.filter((item) => item.study_session === parseInt(selectedSession));*/
+  const filtered = studyData.filter((item) => {
+    const matchSession = selectedSession === "all" || item.study_session === parseInt(selectedSession);
+    const matchWordType = selectedWordType === "all" || item.word_type === selectedWordType;
+
+    return matchSession && matchWordType;
+  });
 
   // fetchData 함수 정의
   const fetchData = async () => {
@@ -28,6 +36,7 @@ const Home = () => {
       if (error) throw error;
       setStudyData(data); // 가져온 데이터로 상태 업데이트
       setSessions([...new Set(data.map((item) => item.study_session))]);
+      setWordType([...new Set(data.map((item) => item.word_type))]);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -82,17 +91,10 @@ const Home = () => {
     } else {
       speak();
     }
-    // const utterance = new SpeechSynthesisUtterance(text);
-    // utterance.lang = "zh-CN";
-    // utterance.rate = 0.8;   // 속도 느리게 (기본: 1)
-    // utterance.pitch = 1.2;  // 약간 높은 톤
-    // utterance.volume = 1;   // 최대 볼륨
-    // speechSynthesis.speak(utterance);
   };
 
   // 삭제
   const handleDelete = async (id) => {
-    // console.log('delete : ', id);
     const confirmed = window.confirm('정말 삭제 하시겠습니까?');
     if (!confirmed) return;
 
@@ -117,19 +119,35 @@ const Home = () => {
             <button onClick={handleOpenModal}>등록</button>
           </div>*/}
           <div className="search-filter">
-            <label>회차별 검색</label>
-            <select onChange={(e) => setSelectedSessions(e.target.value)} value={selectedSession}>
-              <option value="all">전체 회차</option>
-              {sessions.map((r) => (
-                <option key={r} value={r}>{r}회차</option>
-              ))}
-            </select>
+            <p>검색 조건</p>
+            <div>
+              <label>회차</label>
+              <select onChange={(e) => setSelectedSessions(e.target.value)} value={selectedSession}>
+                <option value="all">전체 회차</option>
+                {sessions.map((r) => (
+                    <option key={r} value={r}>{r}회차</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label>구분</label>
+              <select onChange={(e) => setSelectedWordType(e.target.value)} value={selectedWordType}>
+                <option value="all">전체</option>
+                {wordType.map((r) => (
+                    <option key={r} value={r}>{r === 'P' ? '패턴' : '회화'}</option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
         <Modal isOpen={isModalOpen} closeModal={handleCloseModal} onSubmit={handleDataSubmit} />
 
         <div className="card-container">
-          {filtered.map(item => (
+          {
+            filtered.length === 0 ? (
+              <p>데이터가 없습니다.</p>
+            ) :
+            filtered.map(item => (
             <div className="hanzi-card" key={item.id}>
               <div className="card-header">
                 <p className="session">학습 {item.study_session}회차</p>
