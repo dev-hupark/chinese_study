@@ -79,22 +79,22 @@ const Modal = ({ isOpen, closeModal, onSubmit }) => {
               required
             />
           </div>
-          <div>
-            <label>학습일</label>
-            <input
-              type="date"
-              value={studyDt}
-              onChange={(e) => setStudyDt(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>TTS URL</label>
-            <input
-              type="text"
-              value={ttsUrl}
-              onChange={(e) => setTtsUrl(e.target.value)}
-            />
-          </div>
+          {/*<div>*/}
+          {/*  <label>학습일</label>*/}
+          {/*  <input*/}
+          {/*    type="date"*/}
+          {/*    value={studyDt}*/}
+          {/*    onChange={(e) => setStudyDt(e.target.value)}*/}
+          {/*  />*/}
+          {/*</div>*/}
+          {/*<div>*/}
+          {/*  <label>TTS URL</label>*/}
+          {/*  <input*/}
+          {/*    type="text"*/}
+          {/*    value={ttsUrl}*/}
+          {/*    onChange={(e) => setTtsUrl(e.target.value)}*/}
+          {/*  />*/}
+          {/*</div>*/}
           <div className="button-group">
             <button type="submit" className="confirm">
               등록
