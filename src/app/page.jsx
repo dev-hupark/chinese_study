@@ -58,8 +58,8 @@ const Home = () => {
             <th>한자</th>
             <th>병음</th>
             <th>뜻</th>
-            <th>발음듣기</th>
-            <th>수업일</th>
+            {/*<th>발음듣기</th>*/}
+            {/*<th>수업일</th>*/}
           </tr>
           </thead>
           <tbody>
@@ -69,15 +69,15 @@ const Home = () => {
                 <td>{item.chinese_char}</td>
                 <td>{item.pinyin}</td>
                 <td>{item.mean}</td>
-                <td>
-                  <p>-</p>
-                  {/*{item.tts_url ? (*/}
-                  {/*  <audio controls>*/}
-                  {/*  <source src={item.tts_url} type="audio/mpeg" />*/}
-                  {/*</audio>*/}
-                  {/*) : (<p>-</p>)}*/}
-                </td>
-                <td>{new Date(item.study_dt).toLocaleDateString('ko-KR')}</td>
+                {/*<td>*/}
+                {/*  <p>-</p>*/}
+                {/*  {item.tts_url ? (*/}
+                {/*    <audio controls>*/}
+                {/*    <source src={item.tts_url} type="audio/mpeg" />*/}
+                {/*  </audio>*/}
+                {/*  ) : (<p>-</p>)}*/}
+                {/*</td>*/}
+                {/*<td>{new Date(item.study_dt).toLocaleDateString('ko-KR')}</td>*/}
               </tr>
           ))}
           </tbody>
