@@ -46,6 +46,15 @@ const Home = () => {
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>오류: {error}</div>;
 
+  const speakChinese = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "zh-CN";
+    utterance.rate = 0.8;   // 속도 느리게 (기본: 1)
+    utterance.pitch = 1.2;  // 약간 높은 톤
+    utterance.volume = 1;   // 최대 볼륨
+    speechSynthesis.speak(utterance);
+  };
+
   return (
       <div>
         <h1>Chinese Study</h1>
@@ -58,7 +67,7 @@ const Home = () => {
             <th>한자</th>
             <th>병음</th>
             <th>뜻</th>
-            {/*<th>발음듣기</th>*/}
+            <th>발음듣기</th>
             {/*<th>수업일</th>*/}
           </tr>
           </thead>
@@ -69,6 +78,9 @@ const Home = () => {
                 <td>{item.chinese_char}</td>
                 <td>{item.pinyin}</td>
                 <td>{item.mean}</td>
+                <td>
+                  <button onClick={() => speakChinese(item.chinese_char)}>발음듣기</button>
+                </td>
                 {/*<td>*/}
                 {/*  <p>-</p>*/}
                 {/*  {item.tts_url ? (*/}
@@ -82,8 +94,6 @@ const Home = () => {
           ))}
           </tbody>
         </table>
-
-
       </div>
   );
 };
