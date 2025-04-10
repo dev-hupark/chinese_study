@@ -10,14 +10,24 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sessions, setSessions] = useState([]);
+  const [selectedSession, setSelectedSessions] = useState('all');
+
+  const filtered = selectedSession === "all"
+    ? studyData
+    : studyData.filter((item) => item.study_session === parseInt(selectedSession));
 
   // fetchData 함수 정의
   const fetchData = async () => {
     setLoading(true); // 로딩 상태로 설정
     try {
-      const { data, error } = await client.from('chinese_study').select('*');
+      const { data, error } = await client.from('chinese_study')
+        .select('*')
+        .order('study_session', { ascending: true })
+        .order('id', { ascending: true });;
       if (error) throw error;
       setStudyData(data); // 가져온 데이터로 상태 업데이트
+      setSessions([...new Set(data.map((item) => item.study_session))]);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -55,45 +65,60 @@ const Home = () => {
     speechSynthesis.speak(utterance);
   };
 
+  // 삭제
+  const handleDelete = async (id) => {
+    // console.log('delete : ', id);
+    const confirmed = window.confirm('정말 삭제 하시겠습니까?');
+    if (!confirmed) return;
+
+    const { error } = await client
+      .from('chinese_study')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('삭제 실패:', error.message);
+    } else {
+      console.log('삭제 성공');
+      fetchData();
+    }
+  };
+
   return (
-      <div>
+      <div className="container">
         <h1>Chinese Study</h1>
-        <button onClick={handleOpenModal}>등록</button>
+        <div className="nav">
+          <div className="button-group">
+            <button onClick={handleOpenModal}>등록</button>
+          </div>
+          <div className="search-filter">
+            <label>회차별 검색</label>
+            <select onChange={(e) => setSelectedSessions(e.target.value)} value={selectedSession}>
+              <option value="all">전체 회차</option>
+              {sessions.map((r) => (
+                <option key={r} value={r}>{r}회차</option>
+              ))}
+            </select>
+          </div>
+        </div>
         <Modal isOpen={isModalOpen} closeModal={handleCloseModal} onSubmit={handleDataSubmit} />
-        <table>
-          <thead>
-          <tr>
-            <th>회차</th>
-            <th>한자</th>
-            <th>병음</th>
-            <th>뜻</th>
-            <th>발음듣기</th>
-            {/*<th>수업일</th>*/}
-          </tr>
-          </thead>
-          <tbody>
-          {studyData.map(item => (
-              <tr key={item.id}>
-                <td>{item.study_session}</td>
-                <td>{item.chinese_char}</td>
-                <td>{item.pinyin}</td>
-                <td>{item.mean}</td>
-                <td>
+
+        <div className="card-container">
+          {filtered.map(item => (
+            <div className="hanzi-card" key={item.id}>
+              <div className="card-header">
+                <p className="session">{item.study_session}회차</p>
+                <div className="button-group">
                   <button onClick={() => speakChinese(item.chinese_char)}>발음듣기</button>
-                </td>
-                {/*<td>*/}
-                {/*  <p>-</p>*/}
-                {/*  {item.tts_url ? (*/}
-                {/*    <audio controls>*/}
-                {/*    <source src={item.tts_url} type="audio/mpeg" />*/}
-                {/*  </audio>*/}
-                {/*  ) : (<p>-</p>)}*/}
-                {/*</td>*/}
-                {/*<td>{new Date(item.study_dt).toLocaleDateString('ko-KR')}</td>*/}
-              </tr>
+                  <button className="delete" onClick={() => handleDelete(item.id)}>삭제</button>
+                </div>
+              </div>
+              <h1 className="char">{item.chinese_char}</h1>
+              <p className="pinyin">{item.pinyin}</p>
+              <p className="mean">{item.mean}</p>
+            </div>
           ))}
-          </tbody>
-        </table>
+        </div>
       </div>
   );
 };
