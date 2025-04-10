@@ -110,7 +110,7 @@ const Home = () => {
                 <p className="session">{item.study_session}회차</p>
                 <div className="button-group">
                   <button onClick={() => speakChinese(item.chinese_char)}>발음듣기</button>
-                  <button className="delete" onClick={() => handleDelete(item.id)}>삭제</button>
+                  {/*<button className="delete" onClick={() => handleDelete(item.id)}>삭제</button>*/}
                 </div>
               </div>
               <h1 className="char">{item.chinese_char}</h1>
