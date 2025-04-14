@@ -3,7 +3,7 @@
 /* 전체 컨테이너 스타일 */
 .container {
     width: 100%;
-    font-family: Arial, sans-serif;
+    font-family: 'Microsoft Yahei', simsun, san-serif, serif;
 }
 
 /* 테이블 스타일 */
