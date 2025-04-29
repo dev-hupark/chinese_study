@@ -111,13 +111,24 @@ const Home = () => {
     }
   };
 
+  const signInWithGoogle = async () => {
+    const { data, error } = await client.auth.signInWithOAuth({
+      provider: 'google',
+    });
+
+    if (error) console.error(error)
+    else console.log(data)
+  }
+
+
   return (
       <div className="container">
         <h1>Chinese Study</h1>
         <div className="nav">
-          {/*<div className="button-group">
-            <button onClick={handleOpenModal}>등록</button>
-          </div>*/}
+          <div className="button-group">
+            {/*<button onClick={handleOpenModal}>등록</button>*/}
+            <button onClick={signInWithGoogle}>구글로그인</button>
+          </div>
           <div className="search-filter">
             <p>검색 조건</p>
             <div>
