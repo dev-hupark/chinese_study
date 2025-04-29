@@ -8,7 +8,6 @@ export const useUserInfo = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const { data: { session } } = await client.auth.getSession();
         const { data: { user }, error: userError } = await client.auth.getUser();
 
         if (userError || !user) {

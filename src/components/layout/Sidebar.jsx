@@ -5,7 +5,7 @@ import React from 'react';
 
 export default function Sidebar() {
 
-  const { session } = useAuth();
+  // const { session } = useAuth();
   const { userInfo, loading } = useUserInfo();
 
   const handleLogout = async () => {
@@ -14,6 +14,7 @@ export default function Sidebar() {
   };
 
   const handleLogin = async () => {
+    console.log('window.location.origin :' ,window.location.origin);
     const { error } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
