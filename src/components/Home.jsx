@@ -2,7 +2,7 @@
 
 import { client } from '@/lib/supabaseClient';  // supabaseClient.js에서 불러옴
 import React, { useEffect, useState } from 'react';
-import Modal from '@/components/modal/createModal';
+import Modal from '@/components/modal/CreateModal';
 import { useUserInfo } from '@/hooks/useUserInfo';
 
 const Home = () => {
