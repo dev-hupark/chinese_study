@@ -2,11 +2,11 @@
 'use client'
 
 import React, { useState } from 'react';
-import { client } from '/lib/supabaseClient';
-import '/src/app/css/app.css';
+import { client } from '@/lib/supabaseClient';
+import '/src/css/app.css';
 
 const Modal = ({ isOpen, closeModal, onSubmit }) => {
-  const [studySession, setStudySession] = useState('6');
+  const [studySession, setStudySession] = useState('8');
   const [chineseChar, setChineseChar] = useState('');
   const [pinyin, setPinyin] = useState('');
   const [mean, setMean] = useState('');
@@ -78,7 +78,7 @@ const Modal = ({ isOpen, closeModal, onSubmit }) => {
               required
             />
           </div>
-          <div className="search-filter">
+          <div>
             <label>구분</label>
             <select onChange={(e) => setSelectedWordType(e.target.value)} value={selectedWordType}>
               {wordType.map((item) => (

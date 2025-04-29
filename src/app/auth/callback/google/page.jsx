@@ -1,6 +1,6 @@
 'use client'
 
-import { useSyncUser } from '/src/app/hooks/useSyncUser'
+import { useSyncUser } from '/src/hooks/useSyncUser'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 

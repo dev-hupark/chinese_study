@@ -1,6 +1,6 @@
 'use client'
 
-import { client } from '/lib/supabaseClient';  // supabaseClient.js에서 불러옴
+import { client } from '@/lib/supabaseClient';  // supabaseClient.js에서 불러옴
 import { useEffect } from 'react'
 
 export default function LoginPage() {
