@@ -24,8 +24,6 @@ export const useUserInfo = () => {
             .eq('id', user.id)
             .single();
 
-        console.log(user.id);
-
         if (error) {
           console.error('users 테이블 조회 실패:', error);
 
