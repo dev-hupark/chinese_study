@@ -1,20 +1,20 @@
 'use client'
 
-import { useSyncUser } from '/src/hooks/useSyncUser'
+import { syncUser } from '/src/lib/services/syncUser'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 export default function AuthCallbackPage() {
-    const router = useRouter()
-    useSyncUser()
+    const router = useRouter();
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            router.push('/')  // 로그인 후 메인으로 이동
-        }, 1000)
+        const syncAndRedirect = async () => {
+            await syncUser();  // ⭐️ 여기 await으로 기다려야 함
+            router.push('/');     // 완료 후 메인으로 이동
+        };
 
-        return () => clearTimeout(timer)
-    }, [])
+        syncAndRedirect();
+    }, []);
 
-    return <div>로그인 처리 중입니다...</div>
+    return <div>로그인 처리 중입니다...</div>;
 }
