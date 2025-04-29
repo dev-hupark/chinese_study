@@ -1,34 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# chinese_study
 
-## Getting Started
+중국어 학습을 돕기 위한 웹 애플리케이션입니다.  
+단어 암기, 문장 학습, 발음 연습 기능을 목표로 개발하고 있습니다.
 
-First, run the development server:
+## ✨ 주요 기능
+
+- 중국어 단어 및 문장 학습
+- 중국어 발음 지원 (TTS)
+- 회차별로 정리된 학습 리스트
+- 진행 상황 저장 기능 (예정)
+
+## 📚 기술 스택
+
+- **Next.js** 14 (App Router 사용)
+- **React** 18
+- **Vercel** (배포)
+- **ESLint** / **Prettier** (코드 품질 관리)
+
+## 📂 프로젝트 구조
+
+```plaintext
+src/
+├── app/
+│   └── page.jsx      # 메인 페이지
+public/               # 정적 파일 (이미지, 아이콘 등)
+next.config.js        # Next.js 설정 파일
+```
+
+## 🚀 설치 및 실행 방법
+
+1. 프로젝트 클론
+
+```bash
+git clone https://github.com/dev-hupark/chinese_study.git
+cd chinese_study
+```
+
+2. 의존성 설치
+
+```bash
+npm install
+# 또는
+yarn install
+```
+
+3. 개발 서버 실행
 
 ```bash
 npm run dev
-# or
+# 또는
 yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. 브라우저에서 열기
 
-You can start editing the page by modifying `app/page.jsx`. The page auto-updates as you edit the file.
+```plaintext
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🛠️ 배포
 
-## Learn More
+- [Vercel](https://vercel.com/)을 통해 배포되어 있습니다.
+- 배포된 웹사이트: [https://chinese-study-liart.vercel.app](https://chinese-study-liart.vercel.app)
 
-To learn more about Next.js, take a look at the following resources:
+## 🧩 향후 계획
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 유저 로그인 및 학습 진도 저장 기능 추가
+- 학습내용을 기반 한 랜덤 문제 출제 기능 추가
+- 문장 듣기(TTS) 기능 개선
+- 모바일 최적화
+- 테스트 코드 추가 및 코드 커버리지 개선
