@@ -29,6 +29,9 @@ const Home = () => {
   // fetchData 함수 정의
   const fetchData = async () => {
     try {
+      const { data: { session } } = client.auth.getSession();
+      console.log('session:', session);
+
       const { data, error } = await client.from('chinese_study')
         .select('*')
         .order('study_session', { ascending: true })
