@@ -1,35 +1,52 @@
 // Modal.js
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { client } from '@/lib/supabaseClient';
-import '/src/css/app.css';
+import '@/css/app.css';
 
-const Modal = ({ isOpen, closeModal, onSubmit }) => {
-  const [studySession, setStudySession] = useState('8');
-  const [chineseChar, setChineseChar] = useState('');
-  const [pinyin, setPinyin] = useState('');
-  const [mean, setMean] = useState('');
-  const [selectedWordType, setSelectedWordType] = useState('P');
+const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
   const wordType = [{key: '패턴', value: 'P'}, {key: '회화', value: 'C'}]
+  const [studyData, setStudyData] = useState({
+    id: null,
+    study_session: '',
+    chinese_char: '',
+    pinyin: '',
+    mean: '',
+    word_type: 'P',
+  });
+
+  useEffect(() => {
+    if (selectedData) {
+      setStudyData({
+        id: selectedData.id ?? null,
+        study_session: selectedData.study_session ?? '',
+        chinese_char: selectedData.chinese_char ?? '',
+        pinyin: selectedData.pinyin ?? '',
+        mean: selectedData.mean ?? '',
+        word_type: selectedData.word_type ?? 'P',
+      });
+    }
+  }, [selectedData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { data, error } = await client.from('chinese_study').insert([
-      {
-        study_session: studySession,
-        chinese_char: chineseChar,
-        pinyin: pinyin,
-        mean: mean,
-        word_type: selectedWordType,
-      },
-    ]);
+    const upsertData = { ...studyData };
+    if (!upsertData.id) {
+      delete upsertData.id; // 빈 문자열이나 null인 경우 제거
+    }
+
+    const { data, error } = await client
+      .from('chinese_study')
+      .upsert([upsertData], {
+        onConflict: 'id', // 유니크 키 컬럼 지정
+      });
 
     if (error) {
-      console.error('데이터 삽입 에러:', error);
+      console.error('upsert error :', error);
     } else {
-      alert('등록 성공');
+      console.log('success : ', data);
       onSubmit();
       closeModal();
     }
@@ -46,17 +63,30 @@ const Modal = ({ isOpen, closeModal, onSubmit }) => {
             <label>학습 회차</label>
             <input
               type="text"
-              value={studySession}
-              onChange={(e) => setStudySession(e.target.value)}
+              value={studyData.study_session}
+              onChange={(e) => {
+                const value = e.target.value;
+                setStudyData((prev) => ({
+                  ...prev,
+                  study_session: value,
+                }));
+              }}
               required
             />
+            {/*onChange={(e) => setStudySession(e.target.value)}*/}
           </div>
           <div>
             <label>한자</label>
             <input
               type="text"
-              value={chineseChar}
-              onChange={(e) => setChineseChar(e.target.value)}
+              value={studyData.chinese_char}
+              onChange={(e) => {
+                const value = e.target.value;
+                setStudyData((prev) => ({
+                  ...prev,
+                  chinese_char: value,
+                }));
+              }}
               required
             />
           </div>
@@ -64,8 +94,14 @@ const Modal = ({ isOpen, closeModal, onSubmit }) => {
             <label>병음</label>
             <input
               type="text"
-              value={pinyin}
-              onChange={(e) => setPinyin(e.target.value)}
+              value={studyData.pinyin}
+              onChange={(e) => {
+                const value = e.target.value;
+                setStudyData((prev) => ({
+                  ...prev,
+                  pinyin: value,
+                }));
+              }}
               required
             />
           </div>
@@ -73,14 +109,28 @@ const Modal = ({ isOpen, closeModal, onSubmit }) => {
             <label>뜻</label>
             <input
               type="text"
-              value={mean}
-              onChange={(e) => setMean(e.target.value)}
+              value={studyData.mean}
+              onChange={(e) => {
+                const value = e.target.value;
+                setStudyData((prev) => ({
+                  ...prev,
+                  mean: value,
+                }));
+              }}
               required
             />
           </div>
           <div>
             <label>구분</label>
-            <select onChange={(e) => setSelectedWordType(e.target.value)} value={selectedWordType}>
+            <select
+              value={studyData.word_type}
+              onChange={(e) => {
+                const value = e.target.value;
+                setStudyData((prev) => ({
+                  ...prev,
+                  word_type: value,
+                }));
+              }}>
               {wordType.map((item) => (
                   <option key={item.value} value={item.value}>{item.key}</option>
               ))}
