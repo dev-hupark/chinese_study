@@ -49,7 +49,8 @@ const Home = () => {
   if (loading) return <div>로딩 중...</div>
   if (error) return <div>오류: {error}</div>
 
-  const isAdmin = userInfo?.role === 'admin'
+  const isSuAdmin = userInfo?.role === 'su'
+  const isAdmin = (userInfo?.role === 'admin') || isSuAdmin
 
   const speakChinese = (text) => {
     const synth = window.speechSynthesis

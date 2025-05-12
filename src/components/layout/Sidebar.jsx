@@ -1,11 +1,9 @@
-import { useAuth } from '@/components/provider/AuthProvider';
 import { useUserInfo } from '@/hooks/useUserInfo';
 import { client } from '@/lib/supabaseClient';
 import React from 'react';
+import Link from 'next/link';
 
 export default function Sidebar() {
-
-  // const { session } = useAuth();
   const { userInfo, loading } = useUserInfo();
 
   const handleLogout = async () => {
@@ -14,7 +12,6 @@ export default function Sidebar() {
   };
 
   const handleLogin = async () => {
-    console.log('window.location.origin :' ,window.location.origin);
     const { error } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -24,14 +21,29 @@ export default function Sidebar() {
     if (error) console.error('로그인 실패:', error)
   }
 
-
-  const isAdmin = userInfo?.role === 'admin';
+  const isSuAdmin = userInfo?.role === 'su'
+  const isAdmin = (userInfo?.role === 'admin') || isSuAdmin
 
   return (
     <aside className="sidebar">
       <nav>
         <ul>
-          <li>메뉴 준비중...</li>
+          <li>
+            <Link href="/">홈</Link>
+          </li>
+          { isSuAdmin && (
+            <>
+              <li>
+                <Link href="/quiz">문제풀이</Link>
+              </li>
+              <li>
+                <Link href="/board">건의사항</Link>
+              </li>
+              <li>
+                <Link href="/mng/user">사용자관리</Link>
+              </li>
+            </>
+          )}
         </ul>
         <ul className="bottom">
           {loading ? (<></>) :
