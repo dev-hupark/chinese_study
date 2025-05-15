@@ -17,6 +17,12 @@ const Home = () => {
   const [selectedSession, setSelectedSessions] = useState('all')
   const [selectedWordType, setSelectedWordType] = useState('all')
   const [selectedData, setSelectedData] = useState({})
+  const checkBoxItems = [
+    {name: '한자 가리기', value: 'C'},
+    {name: '병음 가리기', value: 'P'},
+    {name: '뜻 가리기', value: 'M'},
+  ]
+  const [wordViewType, setWordViewType] = useState([])
 
   const filtered = studyData.filter((item) => {
     const matchSession = selectedSession === 'all' || item.study_session === parseInt(selectedSession)
@@ -96,18 +102,43 @@ const Home = () => {
     setSelectedData(data)
     handleOpenModal()
   }
+  const handleCheckChange = (event) => {
+    const val = event.target.value
+    const chk = event.target.checked
+    let tmpArr = [ ...wordViewType ];
+    if(chk){
+      tmpArr.push(val)
+    } else {
+      tmpArr = tmpArr.filter(item => item !== val);
+    }
+    setWordViewType(tmpArr)
+  }
 
   return (
-    <div className="container">
-      {isAdmin && <button onClick={handleInsert}>등록</button>}
-      <FilterPanel
-        sessions={sessions}
-        wordType={wordType}
-        selectedSession={selectedSession}
-        setSelectedSessions={setSelectedSessions}
-        selectedWordType={selectedWordType}
-        setSelectedWordType={setSelectedWordType}
-      />
+    <div className="container wrap">
+      <div className="top-section">
+        <FilterPanel
+          sessions={sessions}
+          wordType={wordType}
+          selectedSession={selectedSession}
+          setSelectedSessions={setSelectedSessions}
+          selectedWordType={selectedWordType}
+          setSelectedWordType={setSelectedWordType}
+        />
+        <div className="view-option">
+          {checkBoxItems.map(item => (
+            <label key={item.value}>
+              <input
+                type="checkbox"
+                value={item.value}
+                onChange={handleCheckChange}
+              />
+              {item.name}
+            </label>
+          ))}
+          {isAdmin && <button onClick={handleInsert}>등록</button>}
+        </div>
+      </div>
       <Modal isOpen={isModalOpen}
              selectedData={selectedData}
              closeModal={handleCloseModal}
@@ -118,6 +149,7 @@ const Home = () => {
         onSpeak={speakChinese}
         onDelete={handleDelete}
         onModify={handleModify}
+        wordViewType={wordViewType}
       />
     </div>
   )

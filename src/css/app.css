@@ -4,6 +4,8 @@
 
 .container {
     width: 100%;
+    margin: 0 auto;
+    padding: 5px 20px;
     font-family: 'Microsoft Yahei', simsun, san-serif, serif;
 }
 
@@ -193,4 +195,16 @@
 .container .search-filter div{
     display: flex;
     gap: 5px;
+}
+
+.top-section {
+    height: 40px; line-height: 40px;
+    display: flex; justify-content: space-between;
+    position: sticky; top: 0; z-index: 99;
+    background: #fff;
+    border-bottom: 1px solid #bdbdbd;
+}
+
+.view-option button{
+    margin-left: 20px;
 }

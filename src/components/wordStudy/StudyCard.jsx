@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function StudyCard({ item, isAdmin, onSpeak, onDelete, onModify }) {
+export default function StudyCard({ item, isAdmin, onSpeak, onDelete, onModify, wordViewType }) {
   return (
     <div className="hanzi-card" key={item.id}>
       <div className="card-header">
@@ -16,10 +16,15 @@ export default function StudyCard({ item, isAdmin, onSpeak, onDelete, onModify }
           )}
         </div>
       </div>
-      <h1 className="char">{item.chinese_char}</h1>
-      <p className="pinyin">{item.pinyin}</p>
-      <p className="mean">{item.mean}</p>
-
+      <h1 className="char">
+        { wordViewType.includes('C') ? ('-') : item.chinese_char}
+      </h1>
+      <p className="pinyin">
+        { wordViewType.includes('P') ? ('-') : item.pinyin}
+      </p>
+      <p className="mean">
+        { wordViewType.includes('M') ? ('-') : item.mean}
+      </p>
     </div>
   );
 }

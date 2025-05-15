@@ -1,7 +1,7 @@
 import React from 'react';
 import StudyCard from './StudyCard';
 
-export default function StudyList({ filtered, isAdmin, onSpeak, onDelete, onModify }) {
+export default function StudyList({ filtered, isAdmin, onSpeak, onDelete, onModify, wordViewType }) {
   if (filtered.length === 0) return <p>데이터가 없습니다.</p>;
 
   return (
@@ -14,6 +14,7 @@ export default function StudyList({ filtered, isAdmin, onSpeak, onDelete, onModi
           onSpeak={onSpeak}
           onDelete={onDelete}
           onModify={onModify}
+          wordViewType={wordViewType}
         />
       ))}
     </div>
