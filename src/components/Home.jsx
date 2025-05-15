@@ -126,7 +126,16 @@ const Home = () => {
           setSelectedWordType={setSelectedWordType}
         />
         <div className="view-option">
-
+          {checkBoxItems.map(item => (
+            <label key={item.value}>
+              <input
+                type="checkbox"
+                value={item.value}
+                onChange={handleCheckChange}
+              />
+              {item.name}
+            </label>
+          ))}
           {isAdmin && <button onClick={handleInsert}>등록</button>}
         </div>
       </div>
