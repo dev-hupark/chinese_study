@@ -116,7 +116,9 @@ const Home = () => {
 
   return (
     <div className="container wrap">
-      <div className="top-section">
+      <div className="top-section"
+           style={{ height: userInfo ? '120px' : '60px' }}
+      >
         {isAdmin &&
           <div>
             <button onClick={handleInsert}>등록</button>
