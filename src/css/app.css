@@ -198,8 +198,10 @@
 }
 
 .top-section {
-    height: 40px; line-height: 40px;
-    display: flex; justify-content: space-between;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     position: sticky; top: 0; z-index: 99;
     background: #fff;
     border-bottom: 1px solid #bdbdbd;

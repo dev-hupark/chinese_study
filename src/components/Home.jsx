@@ -117,6 +117,11 @@ const Home = () => {
   return (
     <div className="container wrap">
       <div className="top-section">
+        {isAdmin &&
+          <div>
+            <button onClick={handleInsert}>등록</button>
+          </div>
+        }
         <FilterPanel
           sessions={sessions}
           wordType={wordType}
@@ -136,7 +141,6 @@ const Home = () => {
               {item.name}
             </label>
           ))}
-          {isAdmin && <button onClick={handleInsert}>등록</button>}
         </div>
       </div>
       <Modal isOpen={isModalOpen}
