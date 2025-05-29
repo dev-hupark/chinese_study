@@ -26,7 +26,12 @@ const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
         mean: selectedData.mean ?? '',
         word_type: selectedData.word_type ?? 'P',
       });
+    } else {
+      setStudyData({
+        ...studyData,
+      })
     }
+
   }, [selectedData]);
 
   const handleSubmit = async (e) => {
@@ -58,7 +63,7 @@ const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>새로운 항목 등록</h2>
-        <form onSubmit={handleSubmit}>
+        <form className="insert-form" onSubmit={handleSubmit}>
           <div>
             <label>학습 회차</label>
             <input

@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 import { client } from '@/lib/supabaseClient'
-import Modal from '@/components/modal/CreateModal'
+import CreateModal from '@/components/modal/CreateModal'
+import MultiCreateModal from '@/components/modal/MultiCreateModal'
 import { useUserInfo } from '@/hooks/useUserInfo'
 import FilterPanel from '@/components/wordStudy/FilterPanel'
 import StudyList from '@/components/wordStudy/StudyList'
@@ -12,6 +13,7 @@ const Home = () => {
   const [studyData, setStudyData] = useState([])
   const [error] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isMultiModalOpen, setIsMultiModalOpen] = useState(false)
   const [sessions, setSessions] = useState([])
   const [wordType, setWordType] = useState([])
   const [selectedSession, setSelectedSessions] = useState('all')
@@ -49,11 +51,14 @@ const Home = () => {
   }, [])
 
   const handleOpenModal = () => setIsModalOpen(true)
-  const handleCloseModal = () => setIsModalOpen(false)
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setIsMultiModalOpen(false);
+  }
   const handleDataSubmit = () => fetchData()
 
-  if (loading) return <div>로딩 중...</div>
-  if (error) return <div>오류: {error}</div>
+  if (loading) return <div className="container wrap">로딩 중...</div>
+  if (error) return <div className="container wrap">오류: {error}</div>
 
   const isSuAdmin = userInfo?.role === 'su'
   const isAdmin = (userInfo?.role === 'admin') || isSuAdmin
@@ -94,9 +99,14 @@ const Home = () => {
     }
   }
 
-  const handleInsert = () => {
-    setSelectedData({})
-    handleOpenModal()
+  const handleInsert = (type) => {
+    if(type === 'S'){
+      setSelectedData({})
+      handleOpenModal()
+    } else if(type === 'M'){
+      setIsMultiModalOpen(true)
+    }
+
   }
   const handleModify = (data) => {
     setSelectedData(data)
@@ -120,8 +130,9 @@ const Home = () => {
            style={{ height: userInfo ? '120px' : '60px' }}
       >
         {isAdmin &&
-          <div>
-            <button onClick={handleInsert}>등록</button>
+          <div className="add-button-group">
+            <button onClick={() => handleInsert('S')}>등록</button>
+            { isSuAdmin && <button onClick={() => handleInsert('M')}>대량등록</button> }
           </div>
         }
         <FilterPanel
@@ -145,10 +156,13 @@ const Home = () => {
           ))}
         </div>
       </div>
-      <Modal isOpen={isModalOpen}
+      <CreateModal isOpen={isModalOpen}
              selectedData={selectedData}
              closeModal={handleCloseModal}
              onSubmit={handleDataSubmit} />
+      <MultiCreateModal isOpen={isMultiModalOpen}
+                        closeModal={handleCloseModal}
+                        onSubmit={handleDataSubmit} />
       <StudyList
         filtered={filtered}
         isAdmin={isAdmin}

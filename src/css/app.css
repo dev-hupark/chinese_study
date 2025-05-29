@@ -51,11 +51,12 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.form-data-row { display: flex; flex-direction: row; gap: 5px;}
 .modal-content h2 {
     margin-bottom: 20px;
 }
 
-.modal-content form div {
+.form-data-row div, .insert-form div, .form-data-column {
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
@@ -74,22 +75,6 @@
     margin-top: 20px;
 }
 
-.modal-content button:first-child {
-    background-color: #4CAF50;
-}
-
-.modal-content button:last-child {
-    background-color: #f44336;
-}
-
-.modal-content button:hover {
-    background-color: #45a049;
-}
-
-.modal-content button:last-child:hover {
-    background-color: #e53935;
-}
-
 /* 버튼 그룹 스타일 */
 .modal-content form div.button-group {
     display: flex;
@@ -98,16 +83,24 @@
     margin-top: 25px;
     flex-direction: row;
 }
-
-.button-group .confirm {
+.modal-content .button-group button {
     flex: 1;
-    background-color: #4CAF50;
     color: white;
     border: none;
     padding: 10px;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+.button-group .add {
+    background-color: #489CFF;
+}
+.button-group .add:hover {
+    background-color: #368AFF;
+}
+
+.button-group .confirm {
+    background-color: #4CAF50;
 }
 
 .button-group .confirm:hover {
@@ -115,14 +108,7 @@
 }
 
 .button-group .cancel {
-    flex: 1;
     background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .button-group .cancel:hover {
@@ -207,6 +193,15 @@
     border-bottom: 1px solid #bdbdbd;
 }
 
+.top-section .add-button-group{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+.top-section .add-button-group button {
+    width: 80px; height: 34px; line-height: 30px;
+    font-size: 15px; padding: 2px; background-color: #489CFF;
+}
 .view-option button{
     margin-left: 20px;
 }
