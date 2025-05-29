@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useImperativeHandle, forwardRef, useState } from 'react';
+import React, {useImperativeHandle, forwardRef, useState, useEffect} from 'react';
 
 // eslint-disable-next-line react/display-name
 const InputPinyin = forwardRef((props, ref) => {
@@ -8,9 +8,17 @@ const InputPinyin = forwardRef((props, ref) => {
     const [converted, setConverted] = useState('');
 
     useImperativeHandle(ref, () => ({
-        resetInput: () => setRawInput('-'), // 외부에서 호출 가능
+        resetInput: () => {
+            setRawInput('-')
+            setConverted('')
+        }, // 외부에서 호출 가능
     }));
 
+    useEffect(() => {
+        if(props.pinyin){
+            setConverted(props.pinyin)
+        }
+    }, [props.pinyin])
     const toneMap = {
         a: ["ā", "á", "ǎ", "à"],
         e: ["ē", "é", "ě", "è"],

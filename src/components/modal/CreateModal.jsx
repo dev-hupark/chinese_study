@@ -35,6 +35,17 @@ const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
 
   }, [selectedData]);
 
+  const handleClose = () => {
+    setStudyData({
+      id: null,
+      study_session: '',
+      chinese_char: '',
+      pinyin: '',
+      mean: '',
+      word_type: 'P',
+    })
+    closeModal()
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -104,6 +115,7 @@ const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
             />
           </div>
           <InputPinyin
+              pinyin={studyData.pinyin}
               onKeyDown={handlePinyinChange}
           />
           {/*<div>
@@ -159,7 +171,7 @@ const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
             <button type="submit" className="confirm">
               등록
             </button>
-            <button type="button" className="cancel" onClick={closeModal}>
+            <button type="button" className="cancel" onClick={handleClose}>
               취소
             </button>
           </div>
