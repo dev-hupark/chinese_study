@@ -98,51 +98,63 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
               </select>
             </div>
           </div>
-          <div className="form-data-column">
-            <label>한자</label>
-            <input
-              type="text"
-              value={studyData.chinese_char}
-              onChange={(e) => {
-                const value = e.target.value;
-                setStudyData((prev) => ({
-                  ...prev,
-                  chinese_char: value,
-                }));
-              }}
-            />
+          <div className="form-data-row">
+            <div className="form-data-column">
+              <label>한자</label>
+              <input
+                  type="text"
+                  value={studyData.chinese_char}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setStudyData((prev) => ({
+                      ...prev,
+                      chinese_char: value,
+                    }));
+                  }}
+              />
+            </div>
+            <div className="form-data-column">
+              <label>병음</label>
+              <input
+                  type="text"
+                  value={studyData.pinyin}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setStudyData((prev) => ({
+                      ...prev,
+                      pinyin: value,
+                    }));
+                  }}
+              />
+            </div>
+            <div className="form-data-column">
+              <label>뜻</label>
+              <input
+                  type="text"
+                  value={studyData.mean}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setStudyData((prev) => ({
+                      ...prev,
+                      mean: value,
+                    }));
+                  }}
+              />
+            </div>
           </div>
-          <div className="form-data-column">
-            <label>병음</label>
-            <input
-              type="text"
-              value={studyData.pinyin}
-              onChange={(e) => {
-                const value = e.target.value;
-                setStudyData((prev) => ({
-                  ...prev,
-                  pinyin: value,
-                }));
-              }}
-            />
-          </div>
-          <div className="form-data-column">
-            <label>뜻</label>
-            <input
-              type="text"
-              value={studyData.mean}
-              onChange={(e) => {
-                const value = e.target.value;
-                setStudyData((prev) => ({
-                  ...prev,
-                  mean: value,
-                }));
-              }}
-            />
-          </div>
-          <div>
+
+          <div className="modal-data-view-container">
+            <div className="modal-data-view modal-data-view-h">
+              <p>한자</p>
+              <p>병음</p>
+              <p>뜻</p>
+            </div>
             {upsertData?.map((item, index) => (
-              <p key={index}>{item.chinese_char} / {item.pinyin} / {item.mean}</p>
+              <div key={index} className="modal-data-view modal-data-view-b">
+                <p>{item.chinese_char}</p>
+                <p>{item.pinyin}</p>
+                <p>{item.mean}</p>
+              </div>
             ))}
           </div>
           <div className="button-group">

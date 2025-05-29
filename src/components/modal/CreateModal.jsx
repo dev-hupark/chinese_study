@@ -57,6 +57,28 @@ const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
     }
   };
 
+  const getPinyin = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const text = studyData.pinyin;
+      const match = text.match(/\[\s*([^\]]+?)\s*\]/);
+      if(match !== null){
+        let pinyin = match ? match[1].trim() : '';
+        setStudyData((prev) => ({
+          ...prev,
+          pinyin: pinyin,
+        }));
+      } else {
+        console.log('탭 삭제 테스트')
+        let pinyin = text.replaceAll('\t', ' ');
+        setStudyData((prev) => ({
+          ...prev,
+          pinyin: pinyin,
+        }));
+      }
+    }
+  }
+
   if (!isOpen) return null;
 
   return (
@@ -97,18 +119,21 @@ const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
           </div>
           <div>
             <label>병음</label>
-            <input
-              type="text"
-              value={studyData.pinyin}
-              onChange={(e) => {
-                const value = e.target.value;
-                setStudyData((prev) => ({
-                  ...prev,
-                  pinyin: value,
-                }));
-              }}
-              required
-            />
+            <div>
+              <input
+                type="text"
+                value={studyData.pinyin}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setStudyData((prev) => ({
+                    ...prev,
+                    pinyin: value,
+                  }));
+                }}
+                onKeyDown={getPinyin}
+                required
+              />
+            </div>
           </div>
           <div>
             <label>뜻</label>

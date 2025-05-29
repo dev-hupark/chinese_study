@@ -57,11 +57,14 @@
 }
 
 .form-data-row div, .insert-form div, .form-data-column {
+    flex: 1;
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     gap: 5px;
+    min-width: 0;
 }
+
 
 .modal-content input {
     padding: 8px;
@@ -205,3 +208,14 @@
 .view-option button{
     margin-left: 20px;
 }
+
+.modal-data-view-container { max-height: 200px; font-size: 13px; overflow-y: scroll}
+.modal-data-view {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.modal-data-view p { flex: 1; }
+.modal-data-view-h {border-bottom: 1px solid #bdbdbd; text-align: center;}
+.modal-data-view-b {border-bottom: 1px solid #bdbdbd;}

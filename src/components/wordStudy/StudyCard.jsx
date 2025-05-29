@@ -1,6 +1,10 @@
 import React from 'react';
 
 export default function StudyCard({ item, isAdmin, onSpeak, onDelete, onModify, wordViewType }) {
+    const handleMoveNaverZh = (word) => {
+        window.open(`https://zh.dict.naver.com/#/search?range=all&query=${word}`, '_blank');
+        // word
+    }
   return (
     <div className="hanzi-card" key={item.id}>
       <div className="card-header">
@@ -17,7 +21,11 @@ export default function StudyCard({ item, isAdmin, onSpeak, onDelete, onModify, 
         </div>
       </div>
       <h1 className="char">
-        { wordViewType.includes('C') ? ('-') : item.chinese_char}
+        { wordViewType.includes('C') ? ('-') : (
+            <p onClick={() => handleMoveNaverZh(item.chinese_char)}>
+                {item.chinese_char}
+            </p>
+        )}
       </h1>
       <p className="pinyin">
         { wordViewType.includes('P') ? ('-') : item.pinyin}
