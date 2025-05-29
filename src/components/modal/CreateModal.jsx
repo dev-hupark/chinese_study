@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { client } from '@/lib/supabaseClient';
 import '@/css/app.css';
+import InputPinyin from "./InputPinyin";
 
 const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
   const wordType = [{key: '패턴', value: 'P'}, {key: '회화', value: 'C'}]
@@ -57,26 +58,11 @@ const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
     }
   };
 
-  const getPinyin = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      const text = studyData.pinyin;
-      const match = text.match(/\[\s*([^\]]+?)\s*\]/);
-      if(match !== null){
-        let pinyin = match ? match[1].trim() : '';
-        setStudyData((prev) => ({
-          ...prev,
-          pinyin: pinyin,
-        }));
-      } else {
-        console.log('탭 삭제 테스트')
-        let pinyin = text.replaceAll('\t', ' ');
-        setStudyData((prev) => ({
-          ...prev,
-          pinyin: pinyin,
-        }));
-      }
-    }
+  const handlePinyinChange = (value) => {
+    setStudyData((prev) => ({
+      ...prev,
+      pinyin: value,
+    }));
   }
 
   if (!isOpen) return null;
@@ -117,7 +103,10 @@ const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
               required
             />
           </div>
-          <div>
+          <InputPinyin
+              onKeyDown={handlePinyinChange}
+          />
+          {/*<div>
             <label>병음</label>
             <div>
               <input
@@ -134,7 +123,7 @@ const Modal = ({ selectedData, isOpen, closeModal, onSubmit }) => {
                 required
               />
             </div>
-          </div>
+          </div>*/}
           <div>
             <label>뜻</label>
             <input

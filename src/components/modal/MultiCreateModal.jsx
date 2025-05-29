@@ -1,11 +1,14 @@
 // MultiCreateModal.js
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, {useState, useRef} from 'react';
 import { client } from '@/lib/supabaseClient';
 import '@/css/app.css';
+import InputPinyin from "./InputPinyin";
 
 const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
+  const inputPinyin = useRef();
+
   const wordType = [{key: '패턴', value: 'P'}, {key: '회화', value: 'C'}]
   const [studyData, setStudyData] = useState({
     study_session: '',
@@ -25,6 +28,7 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
       word_type: 'P',
     })
     setUpsertData([])
+    inputPinyin.current?.resetInput();
     closeModal()
   }
   const handleSubmit = async () => {
@@ -50,6 +54,7 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
 
   const addItems = () => {
     setUpsertData(prevItems => [...prevItems, studyData])
+    inputPinyin.current?.resetInput()
     setStudyData(prev => ({
         study_session: prev.study_session,
         chinese_char: '',
@@ -59,11 +64,22 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
     }))
   }
 
+  const handlePinyinChange = (value) => {
+    setStudyData((prev) => ({
+      ...prev,
+      pinyin: value,
+    }));
+  }
+
   if (!isOpen) return null;
+
+  const deleteUpsertData = (index) => {
+    setUpsertData(prev => prev.filter((_, idx) => idx !== index));
+  }
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content modal-content-w600">
+      <div className="modal-content modal-content-w800">
         <h2>새로운 항목 등록</h2>
         <form className="multi-insert-form" onSubmit={handleSubmit}>
           <div className="form-data-row">
@@ -113,7 +129,7 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
                   }}
               />
             </div>
-            <div className="form-data-column">
+            {/*<div className="form-data-column">
               <label>병음</label>
               <input
                   type="text"
@@ -126,7 +142,12 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
                     }));
                   }}
               />
-            </div>
+            </div>*/}
+            <InputPinyin
+                ref={inputPinyin}
+                onKeyDown={handlePinyinChange}
+                type={"M"}
+            />
             <div className="form-data-column">
               <label>뜻</label>
               <input
@@ -142,7 +163,6 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
               />
             </div>
           </div>
-
           <div className="modal-data-view-container">
             <div className="modal-data-view modal-data-view-h">
               <p>한자</p>
@@ -151,7 +171,7 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
             </div>
             {upsertData?.map((item, index) => (
               <div key={index} className="modal-data-view modal-data-view-b">
-                <p>{item.chinese_char}</p>
+                <p><span className="delete-item" onClick={() => deleteUpsertData(index)}>X</span>{item.chinese_char}</p>
                 <p>{item.pinyin}</p>
                 <p>{item.mean}</p>
               </div>

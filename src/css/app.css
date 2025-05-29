@@ -50,7 +50,7 @@
     width: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+.modal-content-w800 {width: 800px;}
 .form-data-row { display: flex; flex-direction: row; gap: 5px;}
 .modal-content h2 {
     margin-bottom: 20px;
@@ -139,7 +139,7 @@
 }
 
 .card-container p, .card-container h1 {
-    margin: 0px;
+    margin: 0;
     padding: 5px;
 }
 
@@ -219,3 +219,5 @@
 .modal-data-view p { flex: 1; }
 .modal-data-view-h {border-bottom: 1px solid #bdbdbd; text-align: center;}
 .modal-data-view-b {border-bottom: 1px solid #bdbdbd;}
+
+.delete-item{display: inline-block; width:20px;}
