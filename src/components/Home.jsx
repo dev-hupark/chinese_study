@@ -41,7 +41,7 @@ const Home = () => {
     if (error) throw error
 
     setStudyData(data)
-    setSessions([...new Set(data.map((item) => item.study_session))])
+    setSessions([...new Set(data.map((item) => item.study_session))].sort((a, b) => b - a))
     setWordType([...new Set(data.map((item) => item.word_type))])
 
   }
