@@ -34,7 +34,7 @@ export default function Sidebar() {
           { isSuAdmin && (
             <>
               <li>
-                <Link href="/quiz">문제풀이</Link>
+                <Link href="/quiz">문제풀기</Link>
               </li>
               <li>
                 <Link href="/board">건의사항</Link>

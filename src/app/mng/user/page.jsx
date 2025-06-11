@@ -17,7 +17,6 @@ export default function SuggestBoardPage() {
       /*.eq('id', user.id)
       .single();*/
 
-      console.log('data : ', data);
       if (error) {
         console.error('users 테이블 조회 실패:', error);
         setUserList(null);
