@@ -31,11 +31,11 @@ export default function Sidebar() {
           <li>
             <Link href="/">홈</Link>
           </li>
+          <li>
+            <Link href="/quiz">문제풀기</Link>
+          </li>
           { isSuAdmin && (
             <>
-              <li>
-                <Link href="/quiz">문제풀기</Link>
-              </li>
               <li>
                 <Link href="/board">건의사항</Link>
               </li>
