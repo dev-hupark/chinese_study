@@ -223,6 +223,16 @@
 .delete-item{display: inline-block; width:20px;}
 
 /* 문제풀기 영역 */
+.quiz-cond {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.quiz-cond input { width: 80px; }
+.quiz-cond button { margin-left: auto; }
+
 .quiz-list {
     display: flex;
     flex-direction: column;

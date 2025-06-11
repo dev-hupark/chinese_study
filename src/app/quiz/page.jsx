@@ -45,16 +45,14 @@ export default function SuggestBoardPage() {
   }
   return (
     <div className="container wrap">
-      <div>
+      <div className="quiz-cond">
         <select onChange={(e) => setSelectedSessions(e.target.value)} value={selectedSession}>
           {sessionList.map((item) => (
             <option key={item.study_session} value={item.study_session}>{item.study_session}회차</option>
           ))}
         </select>
-        <label>
-          문항수
-          <input value={quizCount} onChange={e => setQuizCount(e.target.value)}/>
-        </label>
+        <p>문항수</p>
+        <input value={quizCount} onChange={e => setQuizCount(e.target.value)}/>
         <button onClick={fnQuizStart}>시작</button>
       </div>
       <div className="quiz-list">
