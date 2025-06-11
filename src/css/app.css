@@ -223,8 +223,8 @@
 .delete-item{display: inline-block; width:20px;}
 
 /* 문제풀기 영역 */
+.quiz-cond, .quiz-list { max-width: 450px; display: flex; }
 .quiz-cond {
-    display: flex;
     gap: 15px;
     justify-content: space-between;
     align-items: center;
@@ -234,10 +234,8 @@
 .quiz-cond button { margin-left: auto; }
 
 .quiz-list {
-    display: flex;
     flex-direction: column;
     gap: 5px;
-    max-width: 450px;
 }
 .quiz-card {
     border: 1px solid #368AFF;
