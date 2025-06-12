@@ -7,7 +7,10 @@
 .header > div{ padding: 0 20px; display: flex; gap: 10px; align-items: center; height: 60px;}
 .header > div button { width: 30px; height: 30px; text-align: center; line-height: 30px; font-size: 30px; }
 
-.sidebar { width: 200px; padding: 10px; background-color: #f3f3f3; display: flex; flex-direction: column; }
+.sidebar-bg { width: 100%; height: calc(100% - 60px); position: absolute; top: 60px; left: 0; background-color: black; opacity: 0.5; }
+
+aside { z-index: 999; }
+.sidebar { position: absolute; top: 60px; left: 0; height: calc(100% - 60px); z-index: 1; width: 200px; padding: 10px; background-color: #f3f3f3; display: flex; flex-direction: column; }
 .sidebar nav { display: flex; flex-direction: column; flex: 1; justify-content: space-between; padding: 1rem; }
 .sidebar ul { margin: 0; padding: 0; list-style: none; }
 .sidebar .bottom { margin-top: auto; border-top: 1px solid #ddd; padding-top: 1rem; }

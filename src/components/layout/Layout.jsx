@@ -15,7 +15,11 @@ export default function Layout({ children }) {
     <div className="layout">
       <Header onToggleSidebar={toggleSidebar} />
       <div className="body">
-        {isSidebarOpen && <Sidebar />}
+        {isSidebarOpen &&
+          <Sidebar
+            onToggleSidebar={toggleSidebar}
+          />
+        }
         <main className="main-content">{children}</main>
       </div>
     </div>
