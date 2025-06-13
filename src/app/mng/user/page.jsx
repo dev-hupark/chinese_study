@@ -38,7 +38,7 @@ export default function SuggestBoardPage() {
     fetchUserList();
   }, []);
 
-  if (loading) return <div>로딩 중...</div>
+  if (loading) return <div className="container wrap">로딩 중...</div>
   if (error) return <div>오류: {error}</div>
 
   if (userList.length === 0) return <p>데이터가 없습니다.</p>;

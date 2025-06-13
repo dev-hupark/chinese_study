@@ -2,22 +2,22 @@
 
 import { useState } from 'react';
 import Header from './Header';
-import Sidebar from './Sidebar';
+import Menu from './Menu';
 
 export default function Layout({ children }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
     <div className="layout">
-      <Header onToggleSidebar={toggleSidebar} />
+      <Header onToggleMenu={toggleMenu} />
       <div className="body">
-        {isSidebarOpen &&
-          <Sidebar
-            onToggleSidebar={toggleSidebar}
+        {isMenuOpen &&
+          <Menu
+            onToggleMenu={toggleMenu}
           />
         }
         <main className="main-content">{children}</main>

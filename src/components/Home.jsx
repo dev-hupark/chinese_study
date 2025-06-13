@@ -1,14 +1,17 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import { client } from '@/lib/supabaseClient'
 import CreateModal from '@/components/modal/CreateModal'
 import MultiCreateModal from '@/components/modal/MultiCreateModal'
 import { useUserInfo } from '@/hooks/useUserInfo'
 import FilterPanel from '@/components/wordStudy/FilterPanel'
+import ViewOptionPanel from '@/components/wordStudy/ViewOptionPanel'
 import StudyList from '@/components/wordStudy/StudyList'
 
 const Home = () => {
+  const isFirstRender = useRef(true);
+
   const {userInfo, loading} = useUserInfo()
   const [studyData, setStudyData] = useState([])
   const [error] = useState(null)
@@ -16,46 +19,53 @@ const Home = () => {
   const [isMultiModalOpen, setIsMultiModalOpen] = useState(false)
   const [sessions, setSessions] = useState([])
   const [wordType, setWordType] = useState([])
-  const [selectedSession, setSelectedSessions] = useState('all')
+  const [selectedSession, setSelectedSessions] = useState('')
   const [selectedWordType, setSelectedWordType] = useState('all')
   const [selectedData, setSelectedData] = useState({})
-  const checkBoxItems = [
-    {name: '한자 가리기', value: 'C'},
-    {name: '병음 가리기', value: 'P'},
-    {name: '뜻 가리기', value: 'M'},
-  ]
   const [wordViewType, setWordViewType] = useState([])
 
-  const filtered = studyData.filter((item) => {
-    const matchSession = selectedSession === 'all' || item.study_session === parseInt(selectedSession)
-    const matchWordType = selectedWordType === 'all' || item.word_type === selectedWordType
-    return matchSession && matchWordType
-  })
-
   const fetchData = async () => {
-    const { data, error } = await client.from('chinese_study')
+    let sql = client.from('chinese_study')
       .select('*')
       .order('study_session', { ascending: true })
       .order('id', { ascending: true })
+    if (selectedSession !== '') {
+      sql = sql.eq('study_session', parseInt(selectedSession));
+    }
+    const { data, error } = await sql;
 
     if (error) throw error
 
     setStudyData(data)
-    setSessions([...new Set(data.map((item) => item.study_session))].sort((a, b) => b - a))
     setWordType([...new Set(data.map((item) => item.word_type))])
+  }
 
+  const fetchSesionData = async () => {
+    const { data, error } = await client.rpc('get_study_session_list')
+    if (error) throw error
+
+    setSelectedSessions(data[0].study_session)
+    setSessions(data)
   }
 
   useEffect(() => {
-    fetchData()
+    fetchSesionData();
   }, [])
 
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    fetchData()
+  }, [selectedSession]);
+  
   const handleOpenModal = () => setIsModalOpen(true)
   const handleCloseModal = () => {
     setIsModalOpen(false)
     setIsMultiModalOpen(false);
   }
-  const handleDataSubmit = () => fetchData()
+  const handleDataSubmit = async () => await fetchData()
 
   if (loading) return <div className="container wrap">로딩 중...</div>
   if (error) return <div className="container wrap">오류: {error}</div>
@@ -95,7 +105,7 @@ const Home = () => {
       console.error('삭제 실패:', error.message)
     } else {
       console.log('삭제 성공')
-      fetchData()
+      await fetchData()
     }
   }
 
@@ -124,11 +134,18 @@ const Home = () => {
     setWordViewType(tmpArr)
   }
 
+  const onChangeSession = async (session) => {
+    setSelectedSessions(session)
+  }
+
+  const filtered = studyData.filter((item) => {
+    const matchWordType = selectedWordType === 'all' || item.word_type === selectedWordType
+    return matchWordType
+  })
+
   return (
     <div className="container wrap">
-      <div className="top-section"
-           style={{ height: userInfo ? '120px' : '60px' }}
-      >
+      <div className="top-section">
         {isAdmin &&
           <div className="add-button-group">
             <button onClick={() => handleInsert('S')}>등록</button>
@@ -138,31 +155,24 @@ const Home = () => {
         <FilterPanel
           sessions={sessions}
           wordType={wordType}
+          onChangeSession={onChangeSession}
           selectedSession={selectedSession}
-          setSelectedSessions={setSelectedSessions}
           selectedWordType={selectedWordType}
           setSelectedWordType={setSelectedWordType}
         />
-        <div className="view-option">
-          {checkBoxItems.map(item => (
-            <label key={item.value}>
-              <input
-                type="checkbox"
-                value={item.value}
-                onChange={handleCheckChange}
-              />
-              {item.name}
-            </label>
-          ))}
-        </div>
+        <ViewOptionPanel
+          handleCheckChange={handleCheckChange}
+        />
       </div>
-      <CreateModal isOpen={isModalOpen}
-             selectedData={selectedData}
-             closeModal={handleCloseModal}
-             onSubmit={handleDataSubmit} />
-      <MultiCreateModal isOpen={isMultiModalOpen}
-                        closeModal={handleCloseModal}
-                        onSubmit={handleDataSubmit} />
+      <CreateModal
+        isOpen={isModalOpen}
+        selectedData={selectedData}
+        closeModal={handleCloseModal}
+        onSubmit={handleDataSubmit} />
+      <MultiCreateModal
+        isOpen={isMultiModalOpen}
+        closeModal={handleCloseModal}
+        onSubmit={handleDataSubmit} />
       <StudyList
         filtered={filtered}
         isAdmin={isAdmin}

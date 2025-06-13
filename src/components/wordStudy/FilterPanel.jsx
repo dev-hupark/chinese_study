@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function FilterPanel({
                                       sessions, wordType,
-                                      selectedSession, setSelectedSessions,
+                                      selectedSession, onChangeSession,
                                       selectedWordType, setSelectedWordType
                                     }) {
   return (
@@ -10,10 +10,10 @@ export default function FilterPanel({
       <p>검색 조건</p>
       <div>
         <label>회차</label>
-        <select onChange={(e) => setSelectedSessions(e.target.value)} value={selectedSession}>
-          <option value="all">전체 회차</option>
-          {sessions.map((r) => (
-            <option key={r} value={r}>{r}회차</option>
+        <select onChange={(e) => onChangeSession(e.target.value)} value={selectedSession}>
+          <option value="">전체 회차</option>
+          {sessions.map((s, index) => (
+            <option key={index} value={s.study_session}>{s.study_session}회차</option>
           ))}
         </select>
       </div>
