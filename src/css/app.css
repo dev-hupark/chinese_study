@@ -231,6 +231,7 @@
 .delete-item{display: inline-block; width:20px;}
 
 /* 문제풀기 영역 */
+.quiz-container{width: 100%; max-width: 400px; margin: 0 auto;}
 .quiz-cond, .quiz-list { max-width: 450px; display: flex; }
 .quiz-cond {
     gap: 15px;

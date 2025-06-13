@@ -45,45 +45,47 @@ export default function SuggestBoardPage() {
   }
   return (
     <div className="container wrap">
-      <div className="quiz-cond">
-        <select onChange={(e) => setSelectedSessions(e.target.value)} value={selectedSession}>
-          {sessionList.map((item) => (
-            <option key={item.study_session} value={item.study_session}>{item.study_session}회차</option>
-          ))}
-        </select>
-        <p>문항수</p>
-        <input value={quizCount} onChange={e => setQuizCount(e.target.value)}/>
-        <button onClick={fnQuizStart}>시작</button>
-      </div>
-      <div className="quiz-list">
-        {quizData.map(item => (
-          <div key={item.id} className="quiz-card">
-            <div className="quiz-word">
-              {item.randomBit === 0 ?
-                (
-                  <div className="word">
-                    <p className="char">{item.chinese_char}</p>
-                    <p className="pinyin">{item.pinyin}</p>
-                  </div>
+      <div className="quiz-container">
+        <div className="quiz-cond">
+          <select onChange={(e) => setSelectedSessions(e.target.value)} value={selectedSession}>
+            {sessionList.map((item) => (
+              <option key={item.study_session} value={item.study_session}>{item.study_session}회차</option>
+            ))}
+          </select>
+          <p>문항수</p>
+          <input value={quizCount} onChange={e => setQuizCount(e.target.value)}/>
+          <button onClick={fnQuizStart}>시작</button>
+        </div>
+        <div className="quiz-list">
+          {quizData.map(item => (
+            <div key={item.id} className="quiz-card">
+              <div className="quiz-word">
+                {item.randomBit === 0 ?
+                  (
+                    <div className="word">
+                      <p className="char">{item.chinese_char}</p>
+                      <p className="pinyin">{item.pinyin}</p>
+                    </div>
 
-                )
-                : (<p className="mean">{item.mean}</p>)
-              }
-              <button className="show-answer-btn" onClick={() => fnShowAnswer(item)}>정답</button>
+                  )
+                  : (<p className="mean">{item.mean}</p>)
+                }
+                <button className="show-answer-btn" onClick={() => fnShowAnswer(item)}>정답</button>
+              </div>
+              <div className="answer-word">
+                {item.showAnswer && (
+                  item.randomBit === 0
+                    ? <p className="mean">{item.mean}</p>
+                    :
+                    <div className="word">
+                      <p className="char">{item.chinese_char}</p>
+                      <p className="pinyin">{item.pinyin}</p>
+                    </div>
+                )}
+              </div>
             </div>
-            <div className="answer-word">
-              {item.showAnswer && (
-                item.randomBit === 0
-                  ? <p className="mean">{item.mean}</p>
-                  :
-                  <div className="word">
-                    <p className="char">{item.chinese_char}</p>
-                    <p className="pinyin">{item.pinyin}</p>
-                  </div>
-              )}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )
