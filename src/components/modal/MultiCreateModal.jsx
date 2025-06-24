@@ -13,8 +13,8 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
   const [studyData, setStudyData] = useState({
     study_session: '',
     chinese_char: '',
-    pinyin: '-',
-    mean: '-',
+    pinyin: '',
+    mean: '',
     word_type: 'P',
   });
   const [upsertData, setUpsertData] = useState([])
@@ -64,12 +64,11 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
     }))
   }
 
-  const handlePinyinChange = (event, value) => {
+  const handlePinyinChange = (value) => {
     setStudyData((prev) => ({
       ...prev,
       pinyin: value,
     }));
-    handleInputKeyDown(event)
   }
 
   if (!isOpen) return null;
@@ -78,12 +77,6 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
     setUpsertData(prev => prev.filter((_, idx) => idx !== index));
   }
 
-  const handleInputKeyDown = (event) => {
-    if(event.key === 'Enter'){
-      event.preventDefault();
-      addItems()
-    }
-  }
   return (
     <div className="modal-overlay">
       <div className="modal-content modal-content-w800">
@@ -134,7 +127,6 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
                       chinese_char: value,
                     }));
                   }}
-                  onKeyDown={handleInputKeyDown}
               />
             </div>
             <InputPinyin
@@ -154,7 +146,6 @@ const MultiCreateModal = ({ isOpen, closeModal, onSubmit }) => {
                       mean: value,
                     }));
                   }}
-                  onKeyDown={handleInputKeyDown}
               />
             </div>
           </div>
